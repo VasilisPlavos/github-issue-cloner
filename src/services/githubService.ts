@@ -8,14 +8,13 @@ export class GitHubService {
     this.octokit = new Octokit({ auth: authToken });
   }
 
-  public async getIssues(owner: string, repo: string): Promise<any[]> {
+  public async getIssues(owner: string, repo: string, state?: 'open'): Promise<Issue[]> {
     try {
-      const response = await this.octokit.rest.issues.listForRepo({
-        owner,
-        repo,
-        state: 'open',
-      });
-      return response.data;
+      const response = await this.octokit.rest.issues.listForRepo({ owner, repo, state, per_page: 100 });
+      const issues: Issue[] = response.data;
+      
+      const filteredIssues = issues; // .filter(i => !i.labels.some((l: any) => l.name === 'dont-clone'))
+      return filteredIssues;
     } catch (error: any) {
       throw new Error(`Failed to fetch issues from ${owner}/${repo}: ${error.message}`);
     }
@@ -38,12 +37,7 @@ export class GitHubService {
 
   public async addComment(owner: string, repo: string, issueNumber: number, comment: string): Promise<any> {
     try {
-      const response = await this.octokit.rest.issues.createComment({
-          owner,
-          repo,
-          issue_number: issueNumber,
-          body: comment,
-      });
+      const response = await this.octokit.rest.issues.createComment({ owner, repo, issue_number: issueNumber, body: comment });
       return response.data;
     } catch (error: any) {
       throw new Error(`Failed to add comment to issue #${issueNumber} in ${owner}/${repo}: ${error.message}`);
@@ -65,12 +59,7 @@ export class GitHubService {
 
   public async closeIssue(owner: string, repo: string, issueNumber: number): Promise<any> {
     try {
-      const response = await this.octokit.rest.issues.update({
-          owner,
-          repo,
-          issue_number: issueNumber,
-          state: 'closed',
-      });
+      const response = await this.octokit.rest.issues.update({ owner, repo, issue_number: issueNumber, state: 'closed' });
       return response.data;
     } catch (error: any) {
       throw new Error(`Failed to close issue #${issueNumber} in ${owner}/${repo}: ${error.message}`);
