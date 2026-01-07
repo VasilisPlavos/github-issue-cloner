@@ -8,21 +8,21 @@
 
 **Purpose**: Initialize the Node.js project and configure the development environment.
 
-- [ ] T001 Initialize npm project: `npm init -y`
-- [ ] T002 [P] Install core dependencies: `npm install octokit yargs`
-- [ ] T003 [P] Install development dependencies: `npm install -D typescript @types/node jest ts-jest @types/jest`
-- [ ] T004 [P] Create `tsconfig.json` for TypeScript compilation.
-- [ ] T005 [P] Configure Jest for TypeScript in `jest.config.js`.
-- [ ] T006 Create initial project directory structure: `src/`, `tests/`.
+- [X] T001 Initialize npm project: `npm init -y`
+- [X] T002 [P] Install core dependencies: `npm install octokit yargs`
+- [X] T003 [P] Install development dependencies: `npm install -D typescript @types/node jest ts-jest @types/jest`
+- [X] T004 [P] Create `tsconfig.json` for TypeScript compilation.
+- [X] T005 [P] Configure Jest for TypeScript in `jest.config.js`.
+- [X] T006 Create initial project directory structure: `src/`, `tests/`.
 
 ---
 ## Phase 2: Foundational (Blocking Prerequisites)
 
 **Purpose**: Implement core configuration and service structures.
 
-- [ ] T007 Define `Configuration` and related types in `src/models/config.ts` based on `data-model.md`.
-- [ ] T008 Implement a `ConfigService` in `src/services/configService.ts` to load and validate `config.json`.
-- [ ] T009 [P] Write unit tests for `ConfigService` in `tests/unit/configService.test.ts`.
+- [X] T007 Define `Configuration` and related types in `src/models/config.ts` based on `data-model.md`.
+- [X] T008 Implement a `ConfigService` in `src/services/configService.ts` to load and validate `config.json`.
+- [X] T009 [P] Write unit tests for `ConfigService` in `tests/unit/configService.test.ts`.
 
 ---
 ## Phase 3: User Story 1 - Configure Repositories (Priority: P1)
@@ -33,9 +33,9 @@
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Create the main CLI entry point in `src/cli.ts` using `yargs`.
-- [ ] T011 [US1] Implement the `--help` command to show usage based on `contracts/cli-api.md`.
-- [ ] T012 [US1] Implement the `--version` command.
+- [X] T010 [US1] Create the main CLI entry point in `src/cli.ts` using `yargs`.
+- [X] T011 [US1] Implement the `--help` command to show usage based on `contracts/cli-api.md`.
+- [X] T012 [US1] Implement the `--version` command.
 
 ---
 ## Phase 4: User Story 2 - Clone Issues (Priority: P1)
@@ -46,14 +46,14 @@
 
 ### Implementation for User Story 2
 
-- [ ] T013 [P] [US2] Define `Issue` and `Comment` types in `src/models/issue.ts` based on `data-model.md`.
-- [ ] T014 [US2] Create a `GitHubService` in `src/services/githubService.ts` to encapsulate all `octokit` API calls.
-- [ ] T015 [US2] Implement `getIssues(repo: string)` method in `GitHubService` to fetch all open issues.
-- [ ] T016 [US2] Implement `createIssue(repo: string, issue: Issue)` method in `GitHubService` to create a new issue.
-- [ ] T017 [US2] Implement `addComment(repo: string, issueNumber: number, comment: string)` method in `GitHubService`.
-- [ ] T018 [US2] Implement the main cloning logic in `src/cloner.ts` that orchestrates the service calls.
-- [ ] T019 [US2] Integrate the cloning logic into the main command in `src/cli.ts`.
-- [ ] T020 [P] [US2] Write integration tests for the cloning process in `tests/integration/cloner.test.ts`, mocking the `GitHubService`.
+- [X] T013 [P] [US2] Define `Issue` and `Comment` types in `src/models/issue.ts` based on `data-model.md`.
+- [X] T014 [US2] Create a `GitHubService` in `src/services/githubService.ts` to encapsulate all `octokit` API calls.
+- [X] T015 [US2] Implement `getIssues(repo: string)` method in `GitHubService` to fetch all open issues.
+- [X] T016 [US2] Implement `createIssue(repo: string, issue: Issue)` method in `GitHubService` to create a new issue.
+- [X] T017 [US2] Implement `addComment(repo: string, issueNumber: number, comment: string)` method in `GitHubService`.
+- [X] T018 [US2] Implement the main cloning logic in `src/cloner.ts` that orchestrates the service calls.
+- [X] T019 [US2] Integrate the cloning logic into the main command in `src/cli.ts`.
+- [X] T020 [P] [US2] Write integration tests for the cloning process in `tests/integration/cloner.test.ts`, mocking the `GitHubService`.
 
 ---
 ## Phase 5: User Story 3 - Delete After Cloning (Priority: P2)
@@ -64,16 +64,16 @@
 
 ### Implementation for User Story 3
 
-- [ ] T021 [US3] Implement `closeIssue(repo: string, issueNumber: number)` method in `GitHubService`. Note: GitHub API doesn't allow permanent deletion, so closing is the safer alternative. The task description will be updated to reflect this.
-- [ ] T022 [US3] Add logic to `src/cloner.ts` to call `closeIssue` if the `deleteAfterClone` flag is true in the configuration.
-- [ ] T023 [P] [US3] Add a unit test for the delete/close logic in `tests/unit/cloner.test.ts`.
+- [X] T021 [US3] Implement `closeIssue(repo: string, issueNumber: number)` method in `GitHubService`. Note: GitHub API doesn't allow permanent deletion, so closing is the safer alternative. The task description will be updated to reflect this.
+- [X] T022 [US3] Add logic to `src/cloner.ts` to call `closeIssue` if the `deleteAfterClone` flag is true in the configuration.
+- [X] T023 [P] [US3] Add a unit test for the delete/close logic in `tests/unit/cloner.test.ts`.
 
 ---
 ## Phase 6: Polish & Cross-Cutting Concerns
 
 **Purpose**: Finalize the tool with documentation, error handling, and build scripts.
 
-- [ ] T024 Create a comprehensive `README.md` based on `quickstart.md`.
+- [X] T024 Create a comprehensive `README.md` based on `quickstart.md`.
 - [ ] T025 Implement robust error handling for API failures and invalid configurations.
 - [ ] T026 Add logging to provide clear feedback to the user during the cloning process.
 - [ ] T027 [P] Create `npm` scripts for `build` and `prod` in `package.json`.
