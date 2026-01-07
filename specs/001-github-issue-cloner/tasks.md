@@ -74,10 +74,10 @@
 **Purpose**: Finalize the tool with documentation, error handling, and build scripts.
 
 - [X] T024 Create a comprehensive `README.md` based on `quickstart.md`.
-- [ ] T025 Implement robust error handling for API failures and invalid configurations.
-- [ ] T026 Add logging to provide clear feedback to the user during the cloning process.
-- [ ] T027 [P] Create `npm` scripts for `build` and `prod` in `package.json`.
-- [ ] T028 Add the `--dry-run` functionality to the CLI.
+- [X] T025 Implement robust error handling for API failures and invalid configurations.
+- [X] T026 Add logging to provide clear feedback to the user during the cloning process.
+- [X] T027 [P] Create `npm` scripts for `build` and `prod` in `package.json`.
+- [X] T028 Add the `--dry-run` functionality to the CLI.
 
 ---
 ## Dependencies & Execution Order

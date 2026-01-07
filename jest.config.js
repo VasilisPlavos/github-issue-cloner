@@ -1,5 +1,11 @@
 module.exports = {
-  preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/tests/**/*.test.ts'],
+  testMatch: ['**/tests/**/*.spec.ts'],
+  transform: {
+    '^.+\.ts$': 'ts-jest',
+    '^.+\.js$': 'babel-jest',
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!octokit|@octokit)',
+  ],
 };

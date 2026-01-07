@@ -23,39 +23,48 @@ export class Cloner {
 
     console.log(`Fetching issues from ${fromRepo}...`);
     const sourceIssues = await this.githubService.getIssues(fromOwner, fromRepoName);
-    console.log(`Found ${sourceIssues.length} open issues.`);
-
-    for (const sourceIssue of sourceIssues) {
-      const newIssue: Issue = {
-        title: sourceIssue.title,
-        body: sourceIssue.body,
-        labels: sourceIssue.labels.map((label: any) => label.name),
-        comments: [], // Comments will be handled separately
-      };
-
-      console.log(`Cloning issue: "${sourceIssue.title}"`);
-
-      if (!dryRun) {
-        const createdIssue = await this.githubService.createIssue(toOwner, toRepoName, newIssue);
-        console.log(`  -> Created issue #${createdIssue.number} in ${toRepo}`);
-        
-        // This is a simplified comment handling based on the spec
-        const issueComments = await this.githubService.addComment(fromOwner, fromRepoName, sourceIssue.number, "get comments");
-
-        if (issueComments && issueComments.length > 0) {
-            for(const comment of issueComments) {
-                const commentBody = `**Original comment by @${comment.user.login} on ${comment.created_at}**:\n\n${comment.body}`;
-                await this.githubService.addComment(toOwner, toRepoName, createdIssue.number, commentBody);
-                console.log(`  -> Added comment from @${comment.user.login}`);
+          console.log(`Found ${sourceIssues.length} open issues.`);
+    
+          if (sourceIssues.length === 0) {
+            console.log('No issues found to clone. Exiting.');
+            return;
+          }
+    
+        for (const sourceIssue of sourceIssues) {
+          try {
+            const newIssue: Issue = {
+              title: sourceIssue.title,
+              body: sourceIssue.body,
+              labels: sourceIssue.labels.map((label: any) => label.name),
+              comments: [], // Comments will be handled separately
+            };
+    
+            console.log(`Cloning issue: "${sourceIssue.title}" (#${sourceIssue.number})`);
+    
+            if (!dryRun) {
+              const createdIssue = await this.githubService.createIssue(toOwner, toRepoName, newIssue);
+                        console.log(`  -> Created issue #${createdIssue.number} in ${toRepo}`);
+                        
+                        const issueComments = await this.githubService.getComments(fromOwner, fromRepoName, sourceIssue.number);    
+              if (issueComments && issueComments.length > 0) {
+                  for(const comment of issueComments) {
+                      const commentBody = `**Original comment by @${comment.user.login} on ${comment.created_at}**:\n\n${comment.body}`;
+                      await this.githubService.addComment(toOwner, toRepoName, createdIssue.number, commentBody);
+                      console.log(`  -> Added comment from @${comment.user.login}`);
+                  }
+              }
+    
+              if (this.configService.get('deleteAfterClone')) {
+                console.log(`  -> Closing source issue #${sourceIssue.number} in ${fromRepo}`);
+                await this.githubService.closeIssue(fromOwner, fromRepoName, sourceIssue.number);
+              }
+            } else {
+              console.log(`  -> Dry run: Would clone issue "${sourceIssue.title}" to ${toRepo}`);
             }
+          } catch (error: any) {
+            console.error(`Error cloning issue "${sourceIssue.title}" (#${sourceIssue.number}): ${error.message}`);
+          }
         }
-
-        if (this.configService.get('deleteAfterClone')) {
-          console.log(`  -> Closing source issue #${sourceIssue.number} in ${fromRepo}`);
-          await this.githubService.closeIssue(fromOwner, fromRepoName, sourceIssue.number);
-        }
+        console.log('Cloning complete.');
       }
     }
-    console.log('Cloning complete.');
-  }
-}

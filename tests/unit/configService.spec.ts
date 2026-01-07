@@ -1,7 +1,11 @@
 import { ConfigService } from '../../src/services/configService';
 import * as fs from 'fs';
 
-jest.mock('fs');
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'), // Import and retain default behavior
+  existsSync: jest.fn(),
+  readFileSync: jest.fn(),
+}));
 
 describe('ConfigService', () => {
   const MOCK_CONFIG = {

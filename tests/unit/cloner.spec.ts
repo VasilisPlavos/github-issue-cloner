@@ -1,6 +1,7 @@
 import { Cloner } from '../../src/cloner';
 import { ConfigService } from '../../src/services/configService';
 import { GitHubService } from '../../src/services/githubService';
+import { Configuration } from '../../src/models/config';
 
 // Mock the services
 jest.mock('../../src/services/configService');
@@ -18,7 +19,7 @@ describe('Cloner - Unit', () => {
 
   it('should call closeIssue when deleteAfterClone is true', async () => {
     // Arrange
-    MockedConfigService.prototype.get.mockImplementation((key) => {
+    MockedConfigService.prototype.get.mockImplementation((key: keyof Configuration) => {
         if (key === 'fromRepo') return 'owner/from';
         if (key === 'toRepo') return 'owner/to';
         if (key === 'deleteAfterClone') return true;
@@ -48,7 +49,7 @@ describe('Cloner - Unit', () => {
 
   it('should NOT call closeIssue when deleteAfterClone is false', async () => {
     // Arrange
-    MockedConfigService.prototype.get.mockImplementation((key) => {
+    MockedConfigService.prototype.get.mockImplementation((key: keyof Configuration) => {
         if (key === 'fromRepo') return 'owner/from';
         if (key === 'toRepo') return 'owner/to';
         if (key === 'deleteAfterClone') return false;
